@@ -1,0 +1,5 @@
+* {  /* 將 css 套用在所有元素 */
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;  /* 元素的實際高度與寬度 = 設置的 height 和 width，不會受到 padding 和 border 的影響 */
+}
