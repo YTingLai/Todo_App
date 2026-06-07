@@ -1,0 +1,19 @@
+body {
+    background-color: #3f3f3f;
+    display: flex;  /* 彈性排版 */
+    flex-direction: row;  /* 設定排列方向 : 水平排列 */
+    justify-content: center;  /* 設定對齊方式 : 置中 */
+    color: white;
+    font-family: sans-serif;
+}
+
+
+/* TodoWrapper.jsx */
+.wrapper {
+    background-color: #1f1f1f;
+    width: 450px;
+    padding: 30px;
+    border-radius: 5px;
+    margin-top: 20px;
+    text-align: center;
+}
