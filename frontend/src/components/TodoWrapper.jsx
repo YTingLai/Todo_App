@@ -4,8 +4,9 @@ import Todo from "./Todo";
 function TodoWrapper() {
 
     const initialTodos = [
-        {id: Math.random(), content: "打掃房間", isCompleted: true},
-        {id: Math.random(), content: "寫程式", isCompleted: false},
+        {id: Math.random(), content: "打掃房間", isCompleted: true, isEditing: false},
+        {id: Math.random(), content: "寫程式", isCompleted: false, isEditing: false},
+        {id: Math.random(), content: "倒垃圾", isCompleted: false, isEditing: true},
     ];
 
     return (

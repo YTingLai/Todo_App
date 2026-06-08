@@ -19,8 +19,8 @@ body {
 }
 
 
-/* CreateForm.jsx */
-.create-form {
+/* CreateForm.jsx 和 EditForm.jsx */
+.create-form, .edit-form {
     height: 40px;
     width: 100%;
     border: 2px solid #3f3f3f;
@@ -28,7 +28,7 @@ body {
     display: flex;
 }
 
-.create-form-input {
+.create-form-input, .edit-form-input {
     background-color: transparent;  /* 背景 : 透明 */
     height: 100%;
     flex: 1;  /* 扣除 button 後的所有剩餘空間 */
@@ -39,7 +39,7 @@ body {
     color: white;
 }
 
-.create-form-button {
+.create-form-button, .edit-form-button {
     background-color: #3f3f3f;
     height: 100%;
     width: 50px;
