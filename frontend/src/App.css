@@ -48,3 +48,47 @@ body {
     color: white;
     cursor: pointer;  /* 游標停在特定位置時的形狀，pointer : 手形 */
 }
+
+
+/* Todo.jsx */
+.todo {
+    background-color: #3f3f3f;
+    height: 40px;
+    padding: 0 10px;  /* 上下 : 0，左右 : 10px */
+    border-radius: 5px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;  /* 對齊方式 : 兩端對齊，中間自動分配間距 */
+}
+
+.todo.completed {  /* 交集選擇器 : class 同時有 .todo 和 .completed 才套用 */
+    opacity: 0.4;  /* 元素的透明程度 : 0(全透明) - 1(不透明) */
+}
+
+.todo.completed .todo-content {  /* 後代選擇器 : class 同時有 .todo 和 .completed 且父元素內的子元素有 .todo-content 才套用 */
+    text-decoration: line-through 3px black;  /* 為文字添加刪除線 */
+}
+
+.todo-left {
+    display: flex;
+    align-items: center;  /* 對齊方式 : 垂直置中 */
+}
+
+.checkbox {
+    transform: translateY(1.5px);  /* 元素在 Y 軸方向向下移動 */
+    cursor: pointer;
+}
+
+.todo-content {
+    margin-left: 5px;
+}
+
+.todo-right {
+    display: flex;
+    align-items: center;
+}
+
+.function-icon {
+    margin-left: 5px;
+    cursor: pointer;
+}
