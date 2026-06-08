@@ -17,3 +17,34 @@ body {
     margin-top: 20px;
     text-align: center;
 }
+
+
+/* CreateForm.jsx */
+.create-form {
+    height: 40px;
+    width: 100%;
+    border: 2px solid #3f3f3f;
+    margin: 25px 0px;  /* 上下 : 25px，左右 : 0px */
+    display: flex;
+}
+
+.create-form-input {
+    background-color: transparent;  /* 背景 : 透明 */
+    height: 100%;
+    flex: 1;  /* 扣除 button 後的所有剩餘空間 */
+    min-width: 0;  /* 防止輸入內容太長撐開 input */
+    padding-left: 10px;
+    border: none;
+    outline: none;  /* 去除點擊輸入框時的外框 */
+    color: white;
+}
+
+.create-form-button {
+    background-color: #3f3f3f;
+    height: 100%;
+    width: 50px;
+    flex-shrink: 0;  /* 防止 button 被擠壓 */
+    border: none;
+    color: white;
+    cursor: pointer;  /* 游標停在特定位置時的形狀，pointer : 手形 */
+}
