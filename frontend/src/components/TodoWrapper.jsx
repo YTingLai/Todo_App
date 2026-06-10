@@ -16,12 +16,23 @@ function TodoWrapper() {
         setTodos([...todos, {id: Math.random(), content: content, isCompleted: false, isEditing: false}]);
     };
 
+    /* 刪除 todo
+        - filter() : 依據指定條件過濾元素，回傳一個通過檢測的新陣列
+            - true : 資料被保留
+            - false : 資料被刪除
+    */
+    const deleteTodo = (id) => {
+        setTodos(todos.filter((todo) => {
+            return (todo.id !== id);
+        }));
+    };
+
     return (
         <div className="wrapper">
             <h1>待辦事項</h1>
             <CreateForm addTodo={addTodo} />
             {todos.map((todo) => {  // map() : 遍歷原陣列的每個元素，透過指定的函式進行處理，回傳一個處理好的新陣列
-                return <Todo key={todo.id} todo={todo} />
+                return <Todo key={todo.id} todo={todo} deleteTodo={deleteTodo} />
             })}
         </div>
     );
