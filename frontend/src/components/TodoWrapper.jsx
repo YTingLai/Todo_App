@@ -11,10 +11,15 @@ function TodoWrapper() {
     ];
     const [todos, setTodos] = useState(initialTodos);
 
+    /* 新增 todo */
+    const addTodo = (content) => {
+        setTodos([...todos, {id: Math.random(), content: content, isCompleted: false, isEditing: false}]);
+    };
+
     return (
         <div className="wrapper">
             <h1>待辦事項</h1>
-            <CreateForm />
+            <CreateForm addTodo={addTodo} />
             {todos.map((todo) => {  // map() : 遍歷原陣列的每個元素，透過指定的函式進行處理，回傳一個處理好的新陣列
                 return <Todo key={todo.id} todo={todo} />
             })}
