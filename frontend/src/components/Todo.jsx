@@ -2,7 +2,7 @@ import { FaRegSquareCheck, FaRegSquare } from "react-icons/fa6";  // 導入已�
 import { MdEdit, MdDelete } from "react-icons/md";  // 導入編輯圖示(筆) + 刪除圖示(垃圾桶)
 import EditForm from "./EditForm";
 
-function Todo({todo, deleteTodo}) {
+function Todo({todo, deleteTodo, toggleEditing, editTodo}) {
 
     // 判斷 todo 內容目前的完成狀態
     const CheckboxIcon = todo.isCompleted ? FaRegSquareCheck : FaRegSquare;
@@ -12,9 +12,14 @@ function Todo({todo, deleteTodo}) {
         deleteTodo(todo.id);
     };
 
+    /* 點擊編輯圖示後，觸發 onClick，切換指定 todo 的編輯狀態 */
+    const handleToggleEditClick = () => {
+        toggleEditing(todo.id);
+    };
+
     if(todo.isEditing) {  // 編輯狀態
         return (
-            <EditForm todo={todo} />
+            <EditForm todo={todo} editTodo={editTodo} />
         );
     } else {  // 非編輯狀態
         return (
@@ -24,7 +29,7 @@ function Todo({todo, deleteTodo}) {
                     <p className="todo-content">{todo.content}</p>
                 </div>
                 <div className="todo-right">
-                    <MdEdit className="function-icon"/>
+                    <MdEdit className="function-icon" onClick={handleToggleEditClick} />
                     <MdDelete className="function-icon" onClick={handleDeleteClick} />
                 </div>
             </div>
