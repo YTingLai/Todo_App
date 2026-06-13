@@ -2,7 +2,7 @@ import { FaRegSquareCheck, FaRegSquare } from "react-icons/fa6";  // 導入已�
 import { MdEdit, MdDelete } from "react-icons/md";  // 導入編輯圖示(筆) + 刪除圖示(垃圾桶)
 import EditForm from "./EditForm";
 
-function Todo({todo, deleteTodo, toggleEditing, editTodo}) {
+function Todo({todo, deleteTodo, toggleEditing, editTodo, toggleCompleted}) {
 
     // 判斷 todo 內容目前的完成狀態
     const CheckboxIcon = todo.isCompleted ? FaRegSquareCheck : FaRegSquare;
@@ -17,6 +17,11 @@ function Todo({todo, deleteTodo, toggleEditing, editTodo}) {
         toggleEditing(todo.id);
     };
 
+    /* 點擊核取方塊後，觸發 onClick，切換指定 todo 的完成狀態 */
+    const handleToggleCompletedClick = () => {
+        toggleCompleted(todo.id);
+    };
+
     if(todo.isEditing) {  // 編輯狀態
         return (
             <EditForm todo={todo} editTodo={editTodo} />
@@ -25,7 +30,7 @@ function Todo({todo, deleteTodo, toggleEditing, editTodo}) {
         return (
             <div className={`todo ${todo.isCompleted ? "completed" : ""}`}>
                 <div className="todo-left">
-                    <CheckboxIcon className="checkbox" />
+                    <CheckboxIcon className="checkbox" onClick={handleToggleCompletedClick} />
                     <p className="todo-content">{todo.content}</p>
                 </div>
                 <div className="todo-right">

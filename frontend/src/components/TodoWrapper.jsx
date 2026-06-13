@@ -50,12 +50,25 @@ function TodoWrapper() {
         }));
     };
 
+    /* 切換 todo 的完成狀態
+        - 未完成(false) <-> 已完成(true)
+    */
+    const toggleCompleted = (id) => {
+        setTodos(todos.map((todo) => {
+            if(todo.id === id) {
+                return {...todo, isCompleted: !todo.isCompleted};
+            } else {
+                return todo;
+            }
+        }));
+    };
+
     return (
         <div className="wrapper">
             <h1>待辦事項</h1>
             <CreateForm addTodo={addTodo} />
             {todos.map((todo) => {  // map() : 遍歷原陣列的每個元素，透過指定的函式進行處理，回傳一個處理好的新陣列
-                return <Todo key={todo.id} todo={todo} deleteTodo={deleteTodo} toggleEditing={toggleEditing} editTodo={editTodo} />
+                return <Todo key={todo.id} todo={todo} deleteTodo={deleteTodo} toggleEditing={toggleEditing} editTodo={editTodo} toggleCompleted={toggleCompleted} />
             })}
         </div>
     );
