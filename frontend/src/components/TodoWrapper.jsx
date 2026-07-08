@@ -1,15 +1,40 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CreateForm from "./CreateForm";
 import Todo from "./Todo";
+import { getAllTodoApi } from "../api/todoApi";
 
 function TodoWrapper() {
 
-    const initialTodos = [
-        {id: Math.random(), content: "打掃房間", isCompleted: true, isEditing: false},
-        {id: Math.random(), content: "寫程式", isCompleted: false, isEditing: false},
-        {id: Math.random(), content: "倒垃圾", isCompleted: false, isEditing: true},
-    ];
-    const [todos, setTodos] = useState(initialTodos);
+    const [todos, setTodos] = useState([]);
+
+    /* 將 API 回傳的 Todo 資料轉換成前端使用的格式，並加入 UI 狀態欄位 */
+    const mapTodo = (todo) => {
+        return {...todo, isEditing: false};
+    };
+
+    /* 取得多筆 Todo
+        - response.ok : 狀態碼 200 - 299 之間
+    */
+    const getAllTodo = async () => {
+        try {
+            const response = await getAllTodoApi();
+            if(!response.ok) {  // 判斷狀態碼是否正確
+                throw new Error(response.status);
+            }
+
+            const data = await response.json();
+            setTodos(data.map((todo) => {
+                return mapTodo(todo);
+            }));
+        } catch(error) {
+            console.error(error);
+        }
+    };
+
+    /* 第一次載入頁面時要執行的動作 */
+    useEffect(() => {
+        getAllTodo();
+    }, []);
 
     /* 新增 todo */
     const addTodo = (content) => {
