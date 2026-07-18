@@ -24,4 +24,20 @@ public class TodoController : ControllerBase
 
         return Ok(todos);  // HTTP Status : 200
     }
+
+    // GET : api/Todo/{id}
+    [HttpGet("{id}")]
+    public async Task<ActionResult<TodoDto>> GetTodoById(int id)
+    {
+        var todo = await _todoService.GetTodoByIdAsync(id);
+
+        // 取得失敗
+        if(todo == null)
+        {
+            return NotFound();  // HTTP Status : 404
+        }
+
+        // 取得成功
+        return Ok(todo);
+    }
 }

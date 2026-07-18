@@ -14,6 +14,17 @@ public class TodoService : ITodoService
         _context = context;
     }
 
+    // 封裝 Entity 轉換為 DTO 的映射邏輯，供各方法共用
+    private static TodoDto ToTodoDto(Todo todo)
+    {
+        return new TodoDto
+        {
+            Id = todo.Id,
+            Content = todo.Content,
+            IsCompleted = todo.IsCompleted
+        };
+    }
+
     // 取得多筆 Todo
     public async Task<IEnumerable<TodoDto>> GetAllTodoAsync()
     {
@@ -28,5 +39,23 @@ public class TodoService : ITodoService
                     .ToListAsync();
 
         return todos;
+    }
+
+    // 取得單筆 Todo
+    public async Task<TodoDto?> GetTodoByIdAsync(int id)
+    {
+        // 在資料庫內查詢與傳入 Id 相同的資料
+        var todo = await _context.Todo.FindAsync(id);
+
+        // 沒有找到符合的資料
+        if(todo == null)
+        {
+            return null;
+        }
+
+        // 將資料轉成 DTO 的形式再回傳
+        var response = ToTodoDto(todo);
+
+        return response;
     }
 }
