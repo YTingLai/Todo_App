@@ -58,4 +58,23 @@ public class TodoService : ITodoService
 
         return response;
     }
+
+    // 新增 Todo
+    public async Task<TodoDto> AddTodoAsync(AddTodoDto request)
+    {
+        // 建立一筆 Todo 的 Entity
+        var todo = new Todo
+        {
+            Content = request.Content
+        };
+
+        // 將資料存入資料庫
+        _context.Todo.Add(todo);
+        await _context.SaveChangesAsync();
+
+        // 將資料轉成 DTO 的形式再回傳
+        var response = ToTodoDto(todo);
+
+        return response;
+    }
 }

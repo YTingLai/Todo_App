@@ -40,4 +40,16 @@ public class TodoController : ControllerBase
         // 取得成功
         return Ok(todo);
     }
+
+    // POST : api/Todo
+    [HttpPost]
+    public async Task<ActionResult<TodoDto>> AddTodo(AddTodoDto request)
+    {
+        var todo = await _todoService.AddTodoAsync(request);
+
+        return CreatedAtAction(
+                nameof(GetTodoById),
+                new { id = todo.Id },
+                todo);  // HTTP Status : 201
+    }
 }
