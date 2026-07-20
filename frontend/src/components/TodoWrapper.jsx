@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import CreateForm from "./CreateForm";
 import Todo from "./Todo";
-import { getAllTodoApi } from "../api/todoApi";
+import { addTodoApi, getAllTodoApi } from "../api/todoApi";
 
 function TodoWrapper() {
 
@@ -36,9 +36,21 @@ function TodoWrapper() {
         getAllTodo();
     }, []);
 
-    /* 新增 todo */
-    const addTodo = (content) => {
-        setTodos([...todos, {id: Math.random(), content: content, isCompleted: false, isEditing: false}]);
+    /* 新增 Todo
+        - previousTodos : 取得目前 state 裡最新的 todos
+    */
+    const addTodo = async (content) => {
+        try {
+            const response = await addTodoApi(content);
+            if(!response.ok) {
+                throw new Error(response.status);
+            }
+
+            const todo = await response.json();
+            setTodos(previousTodos => [...previousTodos, mapTodo(todo)]);
+        } catch(error) {
+            console.error(error);
+        }
     };
 
     /* 刪除 todo
