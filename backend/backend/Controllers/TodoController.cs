@@ -52,4 +52,20 @@ public class TodoController : ControllerBase
                 new { id = todo.Id },
                 todo);  // HTTP Status : 201
     }
+
+    // DELETE : api/Todo/{id}
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteTodo(int id)
+    {
+        var result = await _todoService.DeleteTodoAsync(id);
+
+        // 刪除失敗
+        if(!result)
+        {
+            return NotFound();
+        }
+
+        // 刪除成功
+        return NoContent();  // HTTP Status : 204
+    }
 }

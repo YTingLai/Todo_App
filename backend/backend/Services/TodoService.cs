@@ -77,4 +77,23 @@ public class TodoService : ITodoService
 
         return response;
     }
+
+    // 刪除 Todo
+    public async Task<bool> DeleteTodoAsync(int id)
+    {
+        // 在資料庫內查詢與傳入 Id 相同的資料
+        var todo = await _context.Todo.FindAsync(id);
+
+        // 沒有找到符合的資料
+        if (todo == null)
+        {
+            return false;
+        }
+
+        // 從資料庫刪除指定 Id 的資料
+        _context.Todo.Remove(todo);
+        await _context.SaveChangesAsync();
+
+        return true;
+    }
 }
