@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import CreateForm from "./CreateForm";
 import Todo from "./Todo";
-import { addTodoApi, getAllTodoApi } from "../api/todoApi";
+import { addTodoApi, deleteTodoApi, getAllTodoApi } from "../api/todoApi";
 
 function TodoWrapper() {
 
@@ -53,15 +53,24 @@ function TodoWrapper() {
         }
     };
 
-    /* 刪除 todo
+    /* 刪除 Todo
         - filter() : 依據指定條件過濾元素，回傳一個通過檢測的新陣列
             - true : 資料被保留
             - false : 資料被刪除
     */
-    const deleteTodo = (id) => {
-        setTodos(todos.filter((todo) => {
-            return (todo.id !== id);
-        }));
+    const deleteTodo = async (id) => {
+        try {
+            const response = await deleteTodoApi(id);
+            if(!response.ok) {
+                throw new Error(response.status);
+            }
+
+            setTodos(previousTodos => previousTodos.filter((todo) => {
+                return (todo.id !== id);
+            }));
+        } catch(error) {
+            console.error(error);
+        }
     };
 
     /* 切換 todo 的編輯狀態

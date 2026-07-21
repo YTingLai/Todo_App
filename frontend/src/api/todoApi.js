@@ -20,3 +20,10 @@ export const addTodoApi = (content) => {
         })
     });
 };
+
+/* 刪除 Todo */
+export const deleteTodoApi = (id) => {
+    return apiFetch(`/todo/${id}`, {
+        method: "DELETE"
+    });
+};
