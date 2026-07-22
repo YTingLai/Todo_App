@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import CreateForm from "./CreateForm";
 import Todo from "./Todo";
-import { addTodoApi, deleteTodoApi, getAllTodoApi } from "../api/todoApi";
+import { addTodoApi, deleteTodoApi, editTodoApi, getAllTodoApi } from "../api/todoApi";
 
 function TodoWrapper() {
 
@@ -73,11 +73,11 @@ function TodoWrapper() {
         }
     };
 
-    /* 切換 todo 的編輯狀態
+    /* 切換 Todo 的編輯狀態
         - 非編輯狀態(false) -> 編輯狀態(true)
     */
     const toggleEditing = (id) => {
-        setTodos(todos.map((todo) => {
+        setTodos(previousTodos => previousTodos.map((todo) => {
             if(todo.id === id) {
                 return {...todo, isEditing: true};
             } else {
@@ -85,15 +85,25 @@ function TodoWrapper() {
             }
         }));
     };
-    /* 編輯 todo */
-    const editTodo = (id, newContent) => {
-        setTodos(todos.map((todo) => {
-            if(todo.id === id) {
-                return {...todo, content: newContent, isEditing: false};
-            } else {
-                return todo;
+    /* 編輯 Todo */
+    const editTodo = async (id, newContent) => {
+        try {
+            const response = await editTodoApi(id, newContent);
+            if(!response.ok) {
+                throw new Error(response.status);
             }
-        }));
+
+            const updateTodo = await response.json();
+            setTodos(previousTodos => previousTodos.map((todo) => {
+                if(todo.id === id) {
+                    return mapTodo(updateTodo);
+                } else {
+                    return todo;
+                }
+            }));
+        } catch(error) {
+            console.error(error);
+        }
     };
 
     /* 切換 todo 的完成狀態

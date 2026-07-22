@@ -27,3 +27,16 @@ export const deleteTodoApi = (id) => {
         method: "DELETE"
     });
 };
+
+/* 編輯 Todo */
+export const editTodoApi = (id, content) => {
+    return apiFetch(`/todo/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            content: content
+        })
+    });
+};
