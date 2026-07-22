@@ -11,4 +11,6 @@ public interface ITodoService
     Task<TodoDto> AddTodoAsync(AddTodoDto request);
 
     Task<bool> DeleteTodoAsync(int id);
+
+    Task<TodoDto?> EditTodoAsync(int id, EditTodoDto request);
 }

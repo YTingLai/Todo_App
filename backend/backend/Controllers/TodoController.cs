@@ -68,4 +68,20 @@ public class TodoController : ControllerBase
         // 刪除成功
         return NoContent();  // HTTP Status : 204
     }
+
+    // PUT : api/Todo/{id}
+    [HttpPut("{id}")]
+    public async Task<ActionResult<TodoDto>> EditTodo(int id, EditTodoDto request)
+    {
+        var todo = await _todoService.EditTodoAsync(id, request);
+
+        // 編輯失敗
+        if(todo == null)
+        {
+            return NotFound();
+        }
+
+        // 編輯成功
+        return Ok(todo);
+    }
 }

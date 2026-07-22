@@ -96,4 +96,31 @@ public class TodoService : ITodoService
 
         return true;
     }
+
+    // 編輯 Todo
+    public async Task<TodoDto?> EditTodoAsync(int id, EditTodoDto request)
+    {
+        // 在資料庫內查詢與傳入 Id 相同的資料
+        var todo = await _context.Todo.FindAsync(id);
+
+        // 沒有找到符合的資料
+        if(todo == null)
+        {
+            return null;
+        }
+
+        // 從資料庫更新指定 Id 的內容並記錄更新時間
+        if(todo.Content != request.Content)
+        {
+            // 有編輯 Todo 內容才做更新
+            todo.Content = request.Content;
+            todo.UpdatedAt = DateTime.Now;
+            await _context.SaveChangesAsync();
+        }
+
+        // 將資料轉成 DTO 的形式再回傳
+        var response = ToTodoDto(todo);
+
+        return response;
+    }
 }
