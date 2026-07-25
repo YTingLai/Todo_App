@@ -84,4 +84,20 @@ public class TodoController : ControllerBase
         // 編輯成功
         return Ok(todo);
     }
+
+    // PATCH : api/Todo/{id}
+    [HttpPatch("{id}")]
+    public async Task<ActionResult<TodoDto>> ToggleCompleted(int id)
+    {
+        var todo = await _todoService.ToggleCompletedAsync(id);
+
+        // 切換失敗
+        if(todo == null)
+        {
+            return NotFound();
+        }
+
+        // 切換成功
+        return Ok(todo);
+    }
 }

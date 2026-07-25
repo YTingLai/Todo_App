@@ -123,4 +123,36 @@ public class TodoService : ITodoService
 
         return response;
     }
+
+    // Todo 已完成 / 未完成狀態切換
+    public async Task<TodoDto?> ToggleCompletedAsync(int id)
+    {
+        // 在資料庫內查詢與傳入 Id 相同的資料
+        var todo = await _context.Todo.FindAsync(id);
+
+        // 沒有找到符合的資料
+        if(todo == null)
+        {
+            return null;
+        }
+
+        // 從資料庫更新指定 Id 的完成狀態並記錄完成時間
+        todo.IsCompleted = !todo.IsCompleted;
+        if(todo.IsCompleted == true)
+        {
+            // Todo 已完成
+            todo.CompletedAt = DateTime.Now;
+        }
+        else
+        {
+            // Todo 未完成
+            todo.CompletedAt = null;
+        }
+        await _context.SaveChangesAsync();
+
+        // 將資料轉成 DTO 的形式再回傳
+        var response = ToTodoDto(todo);
+
+        return response;
+    }
 }
