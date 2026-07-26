@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import CreateForm from "./CreateForm";
 import Todo from "./Todo";
-import { addTodoApi, deleteTodoApi, editTodoApi, getAllTodoApi } from "../api/todoApi";
+import { addTodoApi, deleteTodoApi, editTodoApi, getAllTodoApi, toggleCompletedApi } from "../api/todoApi";
 
 function TodoWrapper() {
 
@@ -106,17 +106,27 @@ function TodoWrapper() {
         }
     };
 
-    /* 切換 todo 的完成狀態
+    /* Todo 已完成 / 未完成狀態切換
         - 未完成(false) <-> 已完成(true)
     */
-    const toggleCompleted = (id) => {
-        setTodos(todos.map((todo) => {
-            if(todo.id === id) {
-                return {...todo, isCompleted: !todo.isCompleted};
-            } else {
-                return todo;
+    const toggleCompleted = async (id) => {
+        try {
+            const response = await toggleCompletedApi(id);
+            if(!response.ok) {
+                throw new Error(response.status);
             }
-        }));
+
+            const updateTodo = await response.json();
+            setTodos(previousTodos => previousTodos.map((todo) => {
+                if(todo.id === id) {
+                    return mapTodo(updateTodo);
+                } else {
+                    return todo;
+                }
+            }));
+        } catch(error) {
+            console.error(error);
+        }
     };
 
     return (

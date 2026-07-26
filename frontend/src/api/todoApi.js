@@ -40,3 +40,10 @@ export const editTodoApi = (id, content) => {
         })
     });
 };
+
+/* Todo 已完成 / 未完成狀態切換 */
+export const toggleCompletedApi = (id) => {
+    return apiFetch(`/todo/${id}`, {
+        method: "PATCH"
+    });
+};
