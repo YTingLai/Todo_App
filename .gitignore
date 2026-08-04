@@ -12,6 +12,7 @@ node_modules/
 dist
 dist-ssr
 *.local
+issues/
 
 # ASP.NET Core Web API
 .vs/
