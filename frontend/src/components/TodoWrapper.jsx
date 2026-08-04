@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import CreateForm from "./CreateForm";
 import Todo from "./Todo";
 import { addTodoApi, deleteTodoApi, editTodoApi, getAllTodoApi, toggleCompletedApi } from "../api/todoApi";
+import { toast } from "sonner";
 
 function TodoWrapper() {
 
@@ -27,7 +28,7 @@ function TodoWrapper() {
                 return mapTodo(todo);
             }));
         } catch(error) {
-            console.error(error);
+            toast.error(error.message);
         }
     };
 
@@ -49,7 +50,7 @@ function TodoWrapper() {
             const todo = await response.json();
             setTodos(previousTodos => [...previousTodos, mapTodo(todo)]);
         } catch(error) {
-            console.error(error);
+            toast.error(error.message);
         }
     };
 
@@ -69,7 +70,7 @@ function TodoWrapper() {
                 return (todo.id !== id);
             }));
         } catch(error) {
-            console.error(error);
+            toast.error(error.message);
         }
     };
 
@@ -102,7 +103,7 @@ function TodoWrapper() {
                 }
             }));
         } catch(error) {
-            console.error(error);
+            toast.error(error.message);
         }
     };
 
@@ -125,7 +126,7 @@ function TodoWrapper() {
                 }
             }));
         } catch(error) {
-            console.error(error);
+            toast.error(error.message);
         }
     };
 
