@@ -14,13 +14,10 @@ function CreateForm({addTodo}) {
 
     /* 點擊 <button> 後，觸發 onSubmit，新增 todo
         - .preventDefault() : 阻止瀏覽器執行事件的預設行為
-        - .trim() : 清除字串首尾的空白
     */
     const handleSubmit = (e) => {
         e.preventDefault();  // 阻止表單提交後重新整理頁面的行為
-        if(content.trim()) {  // 排除空字串或只有空白的輸入
-            addTodo(content);
-        }
+        addTodo(content);
         setContent('');  // 清空輸入框的資料
     };
 
