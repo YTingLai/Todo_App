@@ -1,4 +1,5 @@
 using backend.Dtos;
+using backend.Errors;
 using backend.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +15,15 @@ public class TodoController : ControllerBase
     public TodoController(ITodoService todoService)
     {
         _todoService = todoService;
+    }
+
+    // 回傳 Todo 不存在時的 404 Not Found
+    private NotFoundObjectResult TodoNotFound()
+    {
+        return NotFound(
+                ErrorResponseFactory.NotFound(
+                    ErrorCode.TodoNotFound,
+                    "Todo 不存在"));  // HTTP Status : 404
     }
 
     // GET : api/Todo
@@ -34,7 +44,7 @@ public class TodoController : ControllerBase
         // 取得失敗
         if(todo == null)
         {
-            return NotFound();  // HTTP Status : 404
+            return TodoNotFound();
         }
 
         // 取得成功
@@ -62,7 +72,7 @@ public class TodoController : ControllerBase
         // 刪除失敗
         if(!result)
         {
-            return NotFound();
+            return TodoNotFound();
         }
 
         // 刪除成功
@@ -78,7 +88,7 @@ public class TodoController : ControllerBase
         // 編輯失敗
         if(todo == null)
         {
-            return NotFound();
+            return TodoNotFound();
         }
 
         // 編輯成功
@@ -94,7 +104,7 @@ public class TodoController : ControllerBase
         // 切換失敗
         if(todo == null)
         {
-            return NotFound();
+            return TodoNotFound();
         }
 
         // 切換成功

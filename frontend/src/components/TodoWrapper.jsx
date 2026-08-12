@@ -20,7 +20,8 @@ function TodoWrapper() {
         try {
             const response = await getAllTodoApi();
             if(!response.ok) {  // 判斷狀態碼是否正確
-                throw new Error(response.status);
+                const error = await response.json();
+                throw new Error(error.message);
             }
 
             const data = await response.json();
@@ -44,7 +45,8 @@ function TodoWrapper() {
         try {
             const response = await addTodoApi(content);
             if(!response.ok) {
-                throw new Error(response.status);
+                const error = await response.json();
+                throw new Error(error.message);
             }
 
             const todo = await response.json();
@@ -63,7 +65,8 @@ function TodoWrapper() {
         try {
             const response = await deleteTodoApi(id);
             if(!response.ok) {
-                throw new Error(response.status);
+                const error = await response.json();
+                throw new Error(error.message);
             }
 
             setTodos(previousTodos => previousTodos.filter((todo) => {
@@ -91,7 +94,8 @@ function TodoWrapper() {
         try {
             const response = await editTodoApi(id, newContent);
             if(!response.ok) {
-                throw new Error(response.status);
+                const error = await response.json();
+                throw new Error(error.message);
             }
 
             const updateTodo = await response.json();
@@ -114,7 +118,8 @@ function TodoWrapper() {
         try {
             const response = await toggleCompletedApi(id);
             if(!response.ok) {
-                throw new Error(response.status);
+                const error = await response.json();
+                throw new Error(error.message);
             }
 
             const updateTodo = await response.json();
