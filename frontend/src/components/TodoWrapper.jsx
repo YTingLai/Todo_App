@@ -13,18 +13,11 @@ function TodoWrapper() {
         return {...todo, isEditing: false};
     };
 
-    /* 取得多筆 Todo
-        - response.ok : 狀態碼 200 - 299 之間
-    */
+    /* 取得多筆 Todo */
     const getAllTodo = async () => {
         try {
-            const response = await getAllTodoApi();
-            if(!response.ok) {  // 判斷狀態碼是否正確
-                const error = await response.json();
-                throw new Error(error.message);
-            }
+            const data = await getAllTodoApi();
 
-            const data = await response.json();
             setTodos(data.map((todo) => {
                 return mapTodo(todo);
             }));
@@ -43,13 +36,8 @@ function TodoWrapper() {
     */
     const addTodo = async (content) => {
         try {
-            const response = await addTodoApi(content);
-            if(!response.ok) {
-                const error = await response.json();
-                throw new Error(error.message);
-            }
+            const todo = await addTodoApi(content);
 
-            const todo = await response.json();
             setTodos(previousTodos => [...previousTodos, mapTodo(todo)]);
         } catch(error) {
             toast.error(error.message);
@@ -63,11 +51,7 @@ function TodoWrapper() {
     */
     const deleteTodo = async (id) => {
         try {
-            const response = await deleteTodoApi(id);
-            if(!response.ok) {
-                const error = await response.json();
-                throw new Error(error.message);
-            }
+            await deleteTodoApi(id);  // await : 等待 DELETE Request 完成後，再更新 UI
 
             setTodos(previousTodos => previousTodos.filter((todo) => {
                 return (todo.id !== id);
@@ -92,13 +76,8 @@ function TodoWrapper() {
     /* 編輯 Todo */
     const editTodo = async (id, newContent) => {
         try {
-            const response = await editTodoApi(id, newContent);
-            if(!response.ok) {
-                const error = await response.json();
-                throw new Error(error.message);
-            }
+            const updateTodo = await editTodoApi(id, newContent);
 
-            const updateTodo = await response.json();
             setTodos(previousTodos => previousTodos.map((todo) => {
                 if(todo.id === id) {
                     return mapTodo(updateTodo);
@@ -116,13 +95,8 @@ function TodoWrapper() {
     */
     const toggleCompleted = async (id) => {
         try {
-            const response = await toggleCompletedApi(id);
-            if(!response.ok) {
-                const error = await response.json();
-                throw new Error(error.message);
-            }
+            const updateTodo = await toggleCompletedApi(id);
 
-            const updateTodo = await response.json();
             setTodos(previousTodos => previousTodos.map((todo) => {
                 if(todo.id === id) {
                     return mapTodo(updateTodo);
