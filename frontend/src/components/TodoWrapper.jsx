@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 function TodoWrapper() {
 
-    const [todos, setTodos] = useState([]);
+    const [todos, setTodos] = useState(null);
 
     /* 將 API 回傳的 Todo 資料轉換成前端使用的格式，並加入 UI 狀態欄位 */
     const mapTodo = (todo) => {
@@ -109,13 +109,26 @@ function TodoWrapper() {
         }
     };
 
+    /* 判斷 Todo 列表目前的狀態
+        - map() : 遍歷原陣列的每個元素，透過指定的函式進行處理，回傳一個處理好的新陣列
+    */
+    let todoListContent;
+
+    if(todos === null) {  // 尚未取得 Todo
+        todoListContent = null;
+    } else if(todos.length === 0) {  // API 成功回傳空陣列
+        todoListContent = <p>目前沒有 Todo</p>
+    } else {  // API 成功回傳有內容的陣列
+        todoListContent = todos.map((todo) => {
+            return <Todo key={todo.id} todo={todo} deleteTodo={deleteTodo} toggleEditing={toggleEditing} editTodo={editTodo} toggleCompleted={toggleCompleted} />
+        });
+    }
+
     return (
         <div className="wrapper">
             <h1>待辦事項</h1>
             <CreateForm addTodo={addTodo} />
-            {todos.map((todo) => {  // map() : 遍歷原陣列的每個元素，透過指定的函式進行處理，回傳一個處理好的新陣列
-                return <Todo key={todo.id} todo={todo} deleteTodo={deleteTodo} toggleEditing={toggleEditing} editTodo={editTodo} toggleCompleted={toggleCompleted} />
-            })}
+            {todoListContent}
         </div>
     );
 }
